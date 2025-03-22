@@ -14,6 +14,8 @@ import {
   X 
 } from "lucide-react";
 import { generateResponse } from "@/services/cohereService";
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition'
+import Speech from 'react-speech';
 
 interface Message {
   role: "user" | "assistant";
@@ -23,6 +25,12 @@ interface Message {
 }
 
 const InterviewPage = () => {
+  const {
+    transcript,
+    listening,
+    resetTranscript,
+    browserSupportsSpeechRecognition
+  } = useSpeechRecognition();
   const location = useLocation();
   const navigate = useNavigate();
   const { resumeFile, jobDescription } = location.state || {};
@@ -73,24 +81,31 @@ const InterviewPage = () => {
     });
   };
 
-  const handleMicToggle = () => {
+  const handleMicToggle = async () => {
     if (!isListening) {
       // Start speech recognition (placeholder)
+      SpeechRecognition.startListening()
       setIsListening(true);
       toast.info("Listening... Click again to stop.");
       // In a real implementation, this would connect to the Web Speech API
     } else {
       // Stop speech recognition
+      SpeechRecognition.stopListening()
       setIsListening(false);
       toast.info("Stopped listening");
+      setInputText(transcript)
+      await handleSendMessage(transcript)
+      resetTranscript()
     }
   };
 
-  const handleSendMessage = async () => {
-    if (!inputText.trim() || isGenerating) return;
+  const handleSendMessage = async (message) => {
+    if (!message.trim() || isGenerating) return;
+
+    alert('asdfasdf')
     
     // Add user message to chat
-    addMessage("user", inputText);
+    addMessage("user", message);
     
     // Clear input field
     setInputText("");
@@ -101,10 +116,12 @@ const InterviewPage = () => {
     
     try {
       // Get response from Cohere API through our service
-      const response = await generateResponse(resumeFile, jobDescription, inputText);
+      const response = await generateResponse(resumeFile, jobDescription, message);
       
       // Update the loading message with the actual response
       updateLastMessage(response);
+      let utterance = new SpeechSynthesisUtterance(response)
+      speechSynthesis.speak(utterance);
     } catch (error) {
       console.error("Error in interview response:", error);
       updateLastMessage("I'm sorry, I encountered an error. Could you try again?");
@@ -117,7 +134,7 @@ const InterviewPage = () => {
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      handleSendMessage();
+      handleSendMessage(inputText);
     }
   };
 
@@ -225,7 +242,7 @@ const InterviewPage = () => {
                     disabled={isGenerating}
                   />
                   <Button 
-                    onClick={handleSendMessage}
+                    onClick={() => {handleSendMessage(inputText)}}
                     className="h-full aspect-square"
                     disabled={isGenerating || !inputText.trim()}
                   >
