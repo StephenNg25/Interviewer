@@ -23,20 +23,21 @@ const SummaryPage = () => {
         }
         getSummary()
     }, []); 
+    function boldify(text) {
+        return text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+    }
     return (
-        <div className="min-h-screen h-screen bg-gradient-to-b from-white to-gray-50 p-4">
-            <Card className="p-4 shadow-md rounded-xl bg-white h-full  flex flex-col">
+        <div className="min-h-screen bg-gradient-to-b from-white to-gray-50 p-4">
+            <Card className="p-4 shadow-md rounded-xl bg-white h-full  flex flex-col space-y-4">
                 <h3 className="text-lg font-semibold mb-4 sticky top-0 bg-white py-2">Summary</h3>
                 {summary ? 
-                    <div>
-                        Getting Summary...
+                    <div className='whitespace-break-spaces' dangerouslySetInnerHTML={{ __html: boldify(summary)}}>
+                        
                     </div> :
                     <div>
-                        {summary}
+                        Getting Summary...
                     </div>
                 }
-                <h3 style = {{textAlign : "center", fontSize : "20px"}}>TL;DR</h3>
-                <SummaryTable summary = {["Good You talked clearly with confidence", "Bad You went on a tangent when discussing TypeScript", "Good You listed experiences relevant to the role"]}></SummaryTable>
                 <Button variant = "outline-secondary" onClick = {() => {navigate("/")}}>Return to menu</Button>
             </Card>
         </div>
