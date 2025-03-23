@@ -2,11 +2,13 @@ from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 import os
 import shutil
+import json
 from langchain_community.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_cohere import CohereEmbeddings, ChatCohere
 from langchain_community.vectorstores import Chroma
 from langchain.chains import RetrievalQA
+import cohere 
 
 app = FastAPI()
 
@@ -31,20 +33,20 @@ for filename in os.listdir(pdf_folder_path):
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
 split_docs = text_splitter.split_documents(all_docs)
 
-cohere_api_key = "WNR1gpEdbnZWp5yyaQqpcOTTtSJS49nAG52Whym5"
-embeddings = CohereEmbeddings(cohere_api_key=cohere_api_key, model="embed-english-v3.0")
-vectorstore = Chroma.from_documents(split_docs, embeddings)
 
-llm = ChatCohere(cohere_api_key=cohere_api_key, model="command", temperature=0.3)
-retriever = vectorstore.as_retriever(search_type="similarity", search_kwargs={"k": 3})
-qa_chain = RetrievalQA.from_chain_type(llm, chain_type="stuff", retriever=retriever)
+cohere_api_key = "WNR1gpEdbnZWp5yyaQqpcOTTtSJS49nAG52Whym5"
+
+co = cohere.ClientV2(api_key=cohere_api_key)
 
 @app.post("/generate-response/")
 async def generate_response(
     resume: UploadFile = File(None),
     job_description: str = Form(...),
-    user_message: str = Form(...)
+    messages: str = Form(...)
 ):
+
+    messages = json.loads(messages)
+
     resume_text = ""
     if resume:
         temp_pdf = f"temp_{resume.filename}"
@@ -55,30 +57,62 @@ async def generate_response(
         resume_text = " ".join([doc.page_content for doc in resume_docs])
         os.remove(temp_pdf)
 
-    prompt = f"""
-    Act strictly as a concise, professional recruiter conducting a job interview. Follow these guidelines precisely:
+    system_message = f"""
+    You are a professional recruiter hiring conducting a job interview for a software engineering role.
+    Have a conversation with the candidate, asking a mix of both behavioural, and technical questions. The candidate's 
+    resume, and the job description for the position you are recruiting for are provided below:
 
-    1. Ask short, direct questions, typically under 20 words, to maintain a clear and professional interaction.
-    2. Never include unnecessary details or introductions unless explicitly asked.
-    3. Use simple language and avoid overly verbose or redundant phrases.
-    4. Ask only one clear question at a time.
-
-    Handling Irrelevant Responses:
-
-    - Immediately recognize and directly address inappropriate, irrelevant, joking, or nonsensical user inputs.
-    - Do not humor or continue irrelevant conversations.
-    - Use exactly one of the following standard responses to quickly redirect:
-    a) "This response isn't relevant to our interview. Please answer appropriately."
-    b) "Let's stay professional. Could you please provide a relevant answer?"
-    c) "That doesn't pertain to the interview context. Let's refocus."
-    - Never answer unrelated questions, jokes, or irrelevant statements. Strictly redirect to the professional context of the interview.
-
-    Job Description: {job_description}
     Resume: {resume_text}
-    User Input: {user_message}
-
-    Respond professionally based strictly on recruiter behavior.
+    Job Description: {job_description}
     """
 
-    response = qa_chain.invoke(prompt)
-    return {"response": response['result']}
+    res = co.chat(
+        model="command-a-03-2025",
+        messages=[{"role": "system", "content": system_message}] + messages
+    )   
+
+    return {"response": res.message.content[0].text}
+
+@app.post("/generate-summary/")
+async def generate_summary(
+    resume: UploadFile = File(None),
+    job_description: str = Form(...),
+    messages: str = Form(...)
+):
+    system_message = """You are an AI designed to review interview transcripts and provide detailed, constructive feedback on the interview performance. Your goal is to assess the interview objectively, offering honest and insightful analysis on the candidate’s responses, communication style, and overall impression. Consider the following aspects in your evaluation:
+
+    Clarity & Coherence: Were the candidate's answers clear and well-structured? Did they stay on topic and articulate their thoughts effectively?
+
+    Depth of Responses: Did the candidate provide insightful and thorough answers, or were their responses vague and lacking detail?
+
+    Relevance: Did the candidate address the question directly, or did they go off on tangents? Were their examples and experiences relevant to the position?
+
+    Confidence & Engagement: Did the candidate demonstrate confidence and enthusiasm? Did they engage well with the interviewer?
+
+    Technical & Behavioral Fit: Based on their answers, does the candidate seem to possess the necessary skills and cultural fit for the role?
+
+    Areas for Improvement: Identify specific weaknesses in the interview, such as unclear explanations, lack of depth, or poor structuring of responses. Provide actionable suggestions on how they can improve.
+
+    Overall Assessment: Summarize the candidate's strengths and weaknesses, providing a final evaluation of their performance."*
+
+    "Be objective, specific, and constructive. If needed, include examples from the transcript to support your analysis. Your feedback should be professional and useful for the candidate to refine their interview skills."""
+
+    messages = json.loads(messages)
+    print(messages)
+    resume_text = ""
+    if resume:
+        temp_pdf = f"temp_{resume.filename}"
+        with open(temp_pdf, "wb") as buffer:
+            shutil.copyfileobj(resume.file, buffer)
+        resume_loader = PyPDFLoader(temp_pdf)
+        resume_docs = resume_loader.load()
+        resume_text = " ".join([doc.page_content for doc in resume_docs])
+        os.remove(temp_pdf)
+
+    res = co.chat(
+        model="command-a-03-2025",
+        messages=[{"role": "system", "content": system_message}] + messages
+        
+    )   
+
+    return {"response": res.message.content[0].text}

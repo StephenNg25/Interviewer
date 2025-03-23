@@ -6,26 +6,23 @@ import { Textarea } from "@/components/ui/textarea";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
-
-//import { generateSummary } from "@/services/cohereService";
+import { generateSummary } from "@/services/cohereService";
 
 const SummaryPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const { resumeFile, jobDescription, interviewTranscript} = location.state || {};
+    const { resumeFile, jobDescription, messages} = location.state || {};
     const [summary, setSummary] = useState("")
-    /*
     useEffect(() => {
         const getSummary = async () => {
-            console.log(interviewTranscript)
-            console.log(interviewTranscript.reduce((res, message) => {return res += ${message['role'] == 'user' ? 'candidate:' : 'interviewer:'} ${message['content']} \n\n}, ""))
-            const response = await generateSummary(resumeFile, jobDescription, interviewTranscript.reduce((res, message) => {return res += ${message['content']} \n\n}, ""))
+            console.log(messages)
+            console.log(messages.reduce((res, message) => {return res += `${message['role'] == 'user' ? 'candidate:' : 'interviewer:'} ${message['content']} \n\n`}, ""))
+            const response = await generateSummary(resumeFile, jobDescription, messages)
             setSummary(response)
             console.log(response)
         }
         getSummary()
     }, []); 
-    */
     return (
         <div className="min-h-screen h-screen bg-gradient-to-b from-white to-gray-50 p-4">
             <Card className="p-4 shadow-md rounded-xl bg-white h-full  flex flex-col">
