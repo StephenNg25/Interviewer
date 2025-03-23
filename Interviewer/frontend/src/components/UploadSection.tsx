@@ -124,7 +124,7 @@ const UploadSection = () => {
         className="text-center mb-8"
       >
         <h1 className="text-4xl md:text-6xl font-display font-bold text-center mb-4">
-          <span className="text-gradient">Perch</span>
+          <span className="text-gradient">Jimmy</span>
         </h1>
         <p className="text-gray-700 text-xl font-semibold">Empower</p>
       </motion.div>
