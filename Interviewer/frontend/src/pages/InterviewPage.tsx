@@ -106,8 +106,6 @@ const InterviewPage = () => {
   const handleSendMessage = async (message) => {
     if (!message.trim() || isGenerating) return;
 
-    alert('asdfasdf')
-
     // Add user message to chat
     const userMessage = addMessage("user", message);
     
