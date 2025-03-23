@@ -75,16 +75,6 @@ const UploadSection = () => {
       setJobDescriptionError("Job description is too short");
       return false;
     }
-    
-    // Check if it contains basic job information (position/role and company)
-    const hasPositionKeywords = /\b(developer|engineer|manager|analyst|designer|specialist|coordinator|director|assistant|administrator|technician|consultant|officer|supervisor|lead|architect|associate)\b/i.test(trimmedText);
-    const hasCompanyIndicator = /\b(at|for|with|company|organization|firm|corporation|inc|llc)\b/i.test(trimmedText);
-    
-    if (!hasPositionKeywords || !hasCompanyIndicator) {
-      setJobDescriptionError("Job description should include position title and company information");
-      return false;
-    }
-    
     return true;
   };
 

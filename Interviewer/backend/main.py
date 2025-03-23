@@ -57,6 +57,29 @@ async def generate_response(
         resume_text = " ".join([doc.page_content for doc in resume_docs])
         os.remove(temp_pdf)
 
+    # Load all PDF files in the /data directory
+    pdf_folder_path = "./data"
+    all_docs = []
+
+    # Iterate through PDF files in the folder and load their content
+    for filename in os.listdir(pdf_folder_path):
+        if filename.lower().endswith(".pdf"):  # Check for PDF files
+            file_path = os.path.join(pdf_folder_path, filename)
+            loader = PyPDFLoader(file_path)
+            docs = loader.load()
+            all_docs.extend(docs)  # Collect all loaded pages into all_docs
+
+    # Split the loaded documents into smaller chunks using RecursiveCharacterTextSplitter
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
+    split_docs = text_splitter.split_documents(all_docs)  # Now split_docs contains chunks from all PDFs
+
+    documents = [
+        {"data": {"text": doc.page_content}}  # Format each document as a 'data' dictionary with the 'text' field
+        for doc in split_docs  # Loop through all split documents
+    ]
+
+    print(documents)
+
     system_message = f"""
     You are a professional recruiter hiring conducting a job interview for a software engineering role.
     Have a conversation with the candidate, asking a mix of both behavioural, and technical questions. Be concise in your responses,
@@ -67,9 +90,10 @@ async def generate_response(
     Job Description: {job_description}
     """
 
+    
     res = co.chat(
         model="command-a-03-2025",
-        messages=[{"role": "system", "content": system_message}] + messages
+        messages=[{"role": "system", "content": system_message}] + messages,
     )   
 
     return {"response": res.message.content[0].text}
