@@ -113,13 +113,13 @@ const InterviewPage = () => {
     setInputText("");
     
     // Add a loading message from the assistant
-    const assistantMessage = addMessage("assistant", "Thinking...", true);
+    addMessage("assistant", "Thinking...", true);
     
     setIsGenerating(true);
     
     try {
       // Get response from Cohere API through our service
-      const response = await generateResponse(resumeFile, jobDescription, [...messages, userMessage, assistantMessage]);
+      const response = await generateResponse(resumeFile, jobDescription, [...messages, userMessage]);
       
       // Update the loading message with the actual response
       updateLastMessage(response);
