@@ -40,7 +40,8 @@ const InterviewPage = () => {
   const [notes, setNotes] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  
+  const [time, setTime] = useState(0);
+
   // Check if we have the required data
   useEffect(() => {
     if (!resumeFile && !jobDescription) {
@@ -54,6 +55,15 @@ const InterviewPage = () => {
       speechSynthesis.speak(utterance);
     }
   }, [resumeFile, jobDescription, navigate]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTime((prev) => prev + 1);{
+      }
+    }, 1000);
+
+    return () => clearInterval(interval); // Cleanup to prevent memory leaks
+  }, []);
 
   // Auto-scroll to the latest message
   useEffect(() => {
@@ -158,6 +168,7 @@ const InterviewPage = () => {
           <div className="md:col-span-2 space-y-6">
             {/* Virtual Interviewer */}
             <Card className="p-6 shadow-md rounded-xl bg-white relative overflow-hidden">
+              <div>Time elapsed: {String(Math.floor(time / 60)).padStart(2, "0")}:{String(time % 60).padStart(2, "0")}</div>
               <div className="flex flex-col items-center justify-center py-10">
                 <div className="relative w-48 h-48 mb-6">
                   <img src = "https://i.ibb.co/CKJx8N8P/image.png"></img>
