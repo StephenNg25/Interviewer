@@ -35,7 +35,7 @@ const Index = () => {
         transition={{ duration: 0.5, delay: 1 }}
         className="py-6 text-center text-gray-500 text-sm"
       >
-        <p>© {new Date().getFullYear()} Perch. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} Jimmy. All rights reserved.</p>
       </motion.footer>
     </div>
   );

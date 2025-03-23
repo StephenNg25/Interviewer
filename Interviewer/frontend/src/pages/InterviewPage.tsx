@@ -153,7 +153,8 @@ const InterviewPage = () => {
             <Card className="p-6 shadow-md rounded-xl bg-white relative overflow-hidden">
               <div className="flex flex-col items-center justify-center py-10">
                 <div className="relative w-48 h-48 mb-6">
-                  <Bot className="w-full h-full text-brand-dark" />
+                  <img src = "https://i.ibb.co/CKJx8N8P/image.png"></img>
+                  {false ? <Bot className="w-full h-full text-brand-dark" /> : null}
                 </div>
                 <Button
                   onClick={handleMicToggle}
@@ -164,7 +165,7 @@ const InterviewPage = () => {
                   {isListening ? <MicOff size={24} /> : <Mic size={24} />}
                 </Button>
                 <p className="mt-4 text-center text-gray-700">
-                  {isListening ? "Listening... Click to stop" : "Click to speak"}
+                  {isListening ? "Listening... Click to stop" : "Click to speak to Jimmy"}
                 </p>
               </div>
             </Card>

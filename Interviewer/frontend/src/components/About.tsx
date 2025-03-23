@@ -11,7 +11,7 @@ const About = () => {
         className="text-center mb-12"
       >
         <h1 className="text-4xl md:text-5xl font-display font-bold mb-4">
-          About <span className="text-gradient">Perch</span>
+          About <span className="text-gradient">Jimmy</span>
         </h1>
         <div className="h-1 w-20 bg-brand mx-auto"></div>
       </motion.div>
@@ -25,7 +25,7 @@ const About = () => {
         <div className="glassmorphism rounded-2xl p-8 soft-shadow">
           <h2 className="text-2xl font-display font-semibold mb-4">Our Mission</h2>
           <p className="text-gray-700 leading-relaxed">
-            Perch aims to empower job seekers by providing intelligent resume analysis and 
+            Jimmy aims to empower job seekers by providing intelligent resume analysis and 
             matching services. We help bridge the gap between your skills and job requirements,
             giving you the insights you need to stand out in the application process.
           </p>
