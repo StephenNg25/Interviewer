@@ -48,7 +48,10 @@ const InterviewPage = () => {
       navigate("/");
     } else {
       // Initial greeting from the AI interviewer
-      addMessage("assistant", "Hello! I'm your AI interviewer today. I've reviewed your resume and the job description. How are you feeling about this interview?");
+      addMessage("assistant", "Hello! I'm Jimmy, your AI interviewer today. I've reviewed your resume and the job description. How are you feeling about this interview?");
+      let utterance = new SpeechSynthesisUtterance( "Hello! I'm Jimmy, your AI interviewer today. I've reviewed your resume and the job description. How are you feeling about this interview?")
+      utterance.rate = 1.7
+      speechSynthesis.speak(utterance);
     }
   }, [resumeFile, jobDescription, navigate]);
 
@@ -113,6 +116,7 @@ const InterviewPage = () => {
     
     // Add a loading message from the assistant
     const assistantMessage = addMessage("assistant", "Thinking...", true);
+    
     setIsGenerating(true);
     
     try {
@@ -123,6 +127,7 @@ const InterviewPage = () => {
       updateLastMessage(response);
       console.log(messages)
       let utterance = new SpeechSynthesisUtterance(response)
+      utterance.rate = 1.7
       speechSynthesis.speak(utterance);
     } catch (error) {
       console.error("Error in interview response:", error);

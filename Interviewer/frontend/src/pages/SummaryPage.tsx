@@ -23,23 +23,24 @@ const SummaryPage = () => {
         }
         getSummary()
     }, []); 
+    function boldify(text) {
+        return text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+    }
     return (
-        <div className="min-h-screen h-screen bg-gradient-to-b from-white to-gray-50 p-4">
-            <Card className="p-4 shadow-md rounded-xl bg-white h-full  flex flex-col">
+        <div className="min-h-screen bg-gradient-to-b from-white to-gray-50 p-4">
+            <Card className="p-4 shadow-md rounded-xl bg-white h-full  flex flex-col space-y-4">
                 <div style = {{display : "flex", flexDirection : "column", alignItems : "center"}}>
                     <img style = {{width : "12%"}} src = "https://i.ibb.co/9kL3hCrQ/smartjimmy.png"></img>
                     <h3 className="text-lg font-semibold mb-4 sticky top-0 bg-white py-2">Jimmy's feedback</h3>
                 </div>
                 {summary ? 
-                    <div>
-                        Awaiting Jimmy's feedback...
+                    <div className='whitespace-break-spaces' dangerouslySetInnerHTML={{ __html: boldify(summary)}}>
+                        {summary}
                     </div> :
                     <div>
-                        {summary}
+                        Awaiting Jimmy's feedback...
                     </div>
                 }
-                <h3 style = {{textAlign : "center", fontSize : "20px"}}>TL;DR</h3>
-                <SummaryTable summary = {["Good You talked clearly with confidence", "Bad You went on a tangent when discussing TypeScript", "Good You listed experiences relevant to the role"]}></SummaryTable>
                 <Button variant = "outline-secondary" onClick = {() => {navigate("/")}}>Return to menu</Button>
             </Card>
         </div>

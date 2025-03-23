@@ -108,10 +108,10 @@ async def generate_summary(
         resume_docs = resume_loader.load()
         resume_text = " ".join([doc.page_content for doc in resume_docs])
         os.remove(temp_pdf)
-
+    messages.pop()
     res = co.chat(
         model="command-a-03-2025",
-        messages=[{"role": "system", "content": system_message}] + messages
+        messages=[{"role": "system", "content": system_message}] + messages + [{"role": "system", "content": "Based on our conversation today, could you give me some feedback on my responses? Please only respond with the feedback and nothing else."}]
         
     )   
 
