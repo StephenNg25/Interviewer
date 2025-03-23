@@ -35,7 +35,6 @@ const SummaryPage = () => {
                 </div>
                 {summary ? 
                     <div className='whitespace-break-spaces' dangerouslySetInnerHTML={{ __html: boldify(summary)}}>
-                        {summary}
                     </div> :
                     <div>
                         Awaiting Jimmy's feedback...
