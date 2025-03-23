@@ -126,7 +126,7 @@ const UploadSection = () => {
         <h1 className="text-4xl md:text-6xl font-display font-bold text-center mb-4">
           <span className="text-gradient">Jimmy</span>
         </h1>
-        <p className="text-gray-700 text-xl font-semibold">Empower</p>
+        <p className="text-gray-700 text-xl font-semibold">Crack the interview with Jimmy</p>
       </motion.div>
       
       <div className="space-y-6">
