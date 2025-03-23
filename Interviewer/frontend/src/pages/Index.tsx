@@ -20,7 +20,7 @@ const Index = () => {
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col items-center justify-center space-y-10 md:space-y-16">
             {/* Logo Section */}
-            <Logo />
+            <img style = {{width : "25%"}} src = "https://i.ibb.co/CKJx8N8P/image.png"></img>
             
             {/* Upload Section */}
             <UploadSection />

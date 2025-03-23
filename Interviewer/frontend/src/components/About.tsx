@@ -53,10 +53,20 @@ const About = () => {
                 <p className="text-gray-600">Paste the job description you're interested in.</p>
               </div>
             </div>
-            
+
             <div className="flex items-start">
               <div className="flex-shrink-0 h-8 w-8 rounded-full bg-brand/20 flex items-center justify-center mr-4">
                 <span className="text-brand-dark font-semibold">3</span>
+              </div>
+              <div>
+                <h3 className="font-medium text-gray-900">Crack Your Interview With Our Virtual Recruiter</h3>
+                <p className="text-gray-600">Engage in a realistic, simulated interview guided by an AI-powered virtual recruiter who adapts questions based on your resume, the job description, and company insights.</p>
+              </div>
+            </div>
+            
+            <div className="flex items-start">
+              <div className="flex-shrink-0 h-8 w-8 rounded-full bg-brand/20 flex items-center justify-center mr-4">
+                <span className="text-brand-dark font-semibold">4</span>
               </div>
               <div>
                 <h3 className="font-medium text-gray-900">Get Personalized Insights</h3>
