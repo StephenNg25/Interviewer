@@ -59,8 +59,9 @@ async def generate_response(
 
     system_message = f"""
     You are a professional recruiter hiring conducting a job interview for a software engineering role.
-    Have a conversation with the candidate, asking a mix of both behavioural, and technical questions. The candidate's 
-    resume, and the job description for the position you are recruiting for are provided below:
+    Have a conversation with the candidate, asking a mix of both behavioural, and technical questions. Be concise in your responses,
+    ask one question at a time, and move on to a different question after a maximum of one follow up question.
+    The candidate's resume, and the job description for the position you are recruiting for are provided below:
 
     Resume: {resume_text}
     Job Description: {job_description}
