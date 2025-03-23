@@ -58,12 +58,13 @@ const InterviewPage = () => {
   }, [messages]);
 
   const addMessage = (role: "user" | "assistant", content: string, isLoading: boolean = false) => {
-    setMessages(prev => [...prev, {
-      role,
-      content,
-      timestamp: new Date(),
-      isLoading
-    }]);
+    const newMessage = {role,
+    content,
+    timestamp: new Date(),
+    isLoading}
+
+    setMessages(prev => [...prev, newMessage]);
+    return newMessage
   };
 
   const updateLastMessage = (content: string, isLoading: boolean = false) => {
@@ -103,23 +104,24 @@ const InterviewPage = () => {
     if (!message.trim() || isGenerating) return;
 
     alert('asdfasdf')
-    
+
     // Add user message to chat
-    addMessage("user", message);
+    const userMessage = addMessage("user", message);
     
     // Clear input field
     setInputText("");
     
     // Add a loading message from the assistant
-    addMessage("assistant", "Thinking...", true);
+    const assistantMessage = addMessage("assistant", "Thinking...", true);
     setIsGenerating(true);
     
     try {
       // Get response from Cohere API through our service
-      const response = await generateResponse(resumeFile, jobDescription, message);
+      const response = await generateResponse(resumeFile, jobDescription, [...messages, userMessage, assistantMessage]);
       
       // Update the loading message with the actual response
       updateLastMessage(response);
+      console.log(messages)
       let utterance = new SpeechSynthesisUtterance(response)
       speechSynthesis.speak(utterance);
     } catch (error) {
@@ -140,7 +142,7 @@ const InterviewPage = () => {
 
   const handleFinishInterview = () => {
     toast.success("Interview finished! In a complete implementation, feedback would be generated here.");
-    navigate("/");
+    navigate("/summary", {state: {resumeFile, jobDescription, messages}});
   };
 
   return (
