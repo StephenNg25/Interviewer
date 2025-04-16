@@ -2,7 +2,9 @@
 
 Jimmy is an AI-powered mock interview platform that simulates recruiter-style interviews based on your resume and a job description. Designed to help candidates prepare for behavioral interviews, Jimmy offers realistic voice-based Q&A, strict recruiter persona interaction, and detailed performance feedback.
 
----
+[![Watch the video](https://github.com/user-attachments/assets/02b3e0cf-9f35-46a6-9067-b5e48184d0d0)](https://www.youtube.com/watch?v=cjplGaNeFnc).
+
+Click image to watch! 
 
 ## 🤖How It Works
 
@@ -10,15 +12,14 @@ Jimmy takes in a user's resume and job description and uses a Cohere-powered Ret
 
 ### Key Features
 - **RAG-based prompt injection** using recruiter transcripts
-- **Voice-to-text** and **text-to-speech** interaction (via Web Speech API)
+- **Voice-to-text** and **text-to-speech** interaction (via Web Speech API) 
 - **PDF resume parsing** and semantic analysis
 - **Custom feedback generation** based on STAR criteria
-
----
 
 ## ⚙️Architecture
 
 **Frontend:**
+
 - Built with **React** and **Tailwind CSS**
 - Uses the **Web Speech API** for bi-directional voice interaction
 - Displays chat history, transcript, and final feedback
@@ -34,7 +35,7 @@ Jimmy takes in a user's resume and job description and uses a Cohere-powered Ret
 - **Chroma** as the vector database
 - **RetrievalQA chain** via LangChain to inject relevant recruiter context into prompts
 
----
+
 
 ## ⚡ Setup Instructions
 
@@ -84,7 +85,7 @@ npm install
 npm run dev
 ```
 
----
+
 
 ## 📊 Data Flow Overview
 
@@ -96,7 +97,7 @@ npm run dev
 6. **Response is spoken out loud** (TTS) and logged in transcript
 7. **At end**, model evaluates responses and outputs feedback
 
----
+
 
 ## 📍 License
 MIT License
