@@ -9,6 +9,8 @@ Click image to watch!
 ## 🤖How It Works
 
 Jimmy takes in a user's resume and job description and uses a Cohere-powered Retrieval-Augmented Generation (RAG) pipeline to simulate a recruiter. It mimics common recruiter behaviors, asking dynamic follow-ups and evaluating responses.
+![jimmy2](https://github.com/user-attachments/assets/6d70f538-3ebd-43ab-b5c8-0873ad7aba79)
+![jimmy3](https://github.com/user-attachments/assets/cf72987e-6aed-4e45-b78c-15b4c67b103f)
 
 ### Key Features
 - **RAG-based prompt injection** using recruiter transcripts
