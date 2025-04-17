@@ -1,16 +1,12 @@
-# Jimmy: AI Interview Simulator
+# Jimmy: AI Interview Simulator ([Demo Here](https://www.youtube.com/watch?v=cjplGaNeFnc))
 
 Jimmy is an AI-powered mock interview platform that simulates recruiter-style interviews based on your resume and a job description. Designed to help candidates prepare for behavioral interviews, Jimmy offers realistic voice-based Q&A, strict recruiter persona interaction, and detailed performance feedback.
 
-[![Watch the video](https://github.com/user-attachments/assets/02b3e0cf-9f35-46a6-9067-b5e48184d0d0)](https://www.youtube.com/watch?v=cjplGaNeFnc).
-
-Click image to watch! 
+![jimmy1](https://github.com/user-attachments/assets/02b3e0cf-9f35-46a6-9067-b5e48184d0d0)
 
 ## 🤖How It Works
 
 Jimmy takes in a user's resume and job description and uses a Cohere-powered Retrieval-Augmented Generation (RAG) pipeline to simulate a recruiter. It mimics common recruiter behaviors, asking dynamic follow-ups and evaluating responses.
-![jimmy2](https://github.com/user-attachments/assets/6d70f538-3ebd-43ab-b5c8-0873ad7aba79)
-![jimmy3](https://github.com/user-attachments/assets/cf72987e-6aed-4e45-b78c-15b4c67b103f)
 
 ### Key Features
 - **RAG-based prompt injection** using recruiter transcripts
@@ -99,7 +95,8 @@ npm run dev
 6. **Response is spoken out loud** (TTS) and logged in transcript
 7. **At end**, model evaluates responses and outputs feedback
 
-
+![jimmy2](https://github.com/user-attachments/assets/6d70f538-3ebd-43ab-b5c8-0873ad7aba79)
+![jimmy3](https://github.com/user-attachments/assets/cf72987e-6aed-4e45-b78c-15b4c67b103f)
 
 ## 📍 License
 MIT License
